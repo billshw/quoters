@@ -27,27 +27,23 @@ class DatabaseLoader {
 	CommandLineRunner init(QuoteRepository repository) {
 
 		return args -> {
-			repository.save(new Quote("Working with Spring Boot is like pair-programming with the Spring developers."));
-			repository.save(new Quote("With Boot you deploy everywhere you can find a JVM basically."));
-			repository.save(new Quote("Spring has come quite a ways in addressing developer enjoyment and "
-					+ "ease of use since the last time I built an application using it."));
-			repository.save(new Quote(
-					"Previous to Spring Boot, I remember XML hell, confusing set up, and " + "many hours of frustration."));
-			repository.save(new Quote("Spring Boot solves this problem. It gets rid of XML and wires up "
-					+ "common components for me, so I don't have to spend hours scratching my "
-					+ "head just to figure out how it's all pieced together."));
-			repository.save(new Quote("It embraces " + "convention over configuration, providing an experience on par with "
-					+ "frameworks that excel at early stage development, such as Ruby on " + "Rails."));
-			repository.save(new Quote("The real benefit of Boot, however, is that it's just Spring. That "
-					+ "means any direction the code takes, regardless of complexity, I know " + "it's a safe bet."));
-			repository.save(new Quote("I don't worry about my code scaling. Boot allows the "
-					+ "developer to peel back the layers and customize when it's appropriate "
-					+ "while keeping the conventions that just work."));
-			repository.save(new Quote("So easy it is to switch container in #springboot."));
-			repository.save(new Quote("Really loving Spring Boot, makes stand alone Spring apps easy."));
-			repository.save(new Quote("I have two hours today to build an app from scratch. @springboot to the rescue!"));
-			repository.save(new Quote("@springboot with @springframework is pure productivity! Who said in #java one has "
-					+ "to write double the code than in other langs? #newFavLib"));
+			repository.save(new Quote("Soul - Spark"));
+			repository.save(new Quote("YouTuber - achievement "));
+			repository.save(new Quote("Help other ppl"));
+			repository.save(new Quote("Relationships"));
+			repository.save(new Quote("1% improvement"));
+			repository.save(new Quote("be do hv"));
+			repository.save(new Quote("Excuses are the obstructions that become the reasons for you abandoning your dream."));
+			repository.save(new Quote("What you resist persists."));
+			repository.save(new Quote("Life shrinks or expands in proportion with one’s courage."));
+			repository.save(new Quote("If you lose, don't lose the lesson."));
+			repository.save(new Quote("The struggle you're in today is developing the strength you need for tomorrow."));
+			repository.save(new Quote("If you don't prioritize your life, someone else will."));
+			repository.save(new Quote("Fear does not prevent death. It prevents life."));
+			repository.save(new Quote("Eat the frog."));
+			repository.save(new Quote("Don't let perfection become procrastination. Do it now."));
+			repository.save(new Quote("If you are always trying to be normal you will never know how amazing you can be."));
+			repository.save(new Quote("Do the thing you think you cannot do."));
 		};
 	}
 }

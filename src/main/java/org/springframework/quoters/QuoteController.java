@@ -16,13 +16,15 @@
 
 package org.springframework.quoters;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 public class QuoteController {
@@ -30,34 +32,78 @@ public class QuoteController {
 	private final static Quote NONE = new Quote("None");
 	private final static Random RANDOMIZER = new Random();
 
-	private final QuoteRepository repository;
+	private final QuoteRepository quoteRepository;
 
-	public QuoteController(QuoteRepository repository) {
-		this.repository = repository;
+	public QuoteController(QuoteRepository quoteRepository) {
+		this.quoteRepository = quoteRepository;
 	}
 
 	@GetMapping("/api")
 	public List<QuoteResource> getAll() {
 
-		return repository.findAll().stream()
-			.map(quote -> new QuoteResource(quote, "success"))
-			.collect(Collectors.toList());
+		return quoteRepository.findAll().stream()
+				.map(quote -> new QuoteResource(quote, "success"))
+				.collect(Collectors.toList());
+	}
+
+	@GetMapping("/api2")
+	public List<Quote> getAll2() {
+		return quoteRepository.findAll();
 	}
 
 	@GetMapping("/api/{id}")
 	public QuoteResource getOne(@PathVariable Long id) {
 
-		return repository.findById(id)
+		return quoteRepository.findById(id)
 			.map(quote -> new QuoteResource(quote, "success"))
 			.orElse(new QuoteResource(NONE, "Quote " + id + " does not exist"));
 	}
 
 	@GetMapping("/api/random")
 	public QuoteResource getRandomOne() {
-		return getOne(nextLong(1, repository.count() + 1));
+		return getOne(nextLong(1, quoteRepository.count() + 1));
 	}
 
 	private long nextLong(long lowerRange, long upperRange) {
 		return (long) (RANDOMIZER.nextDouble() * (upperRange - lowerRange)) + lowerRange;
 	}
+
+
+
+
+
+	//DELETE
+	@DeleteMapping("/api/{id}")
+	public void deleteQuote(@PathVariable long id) {
+		quoteRepository.deleteById(id);
+	}
+
+
+	//CREATE
+	@PostMapping("/api")
+	public ResponseEntity<Object> createQuote(@RequestBody Quote quote) {
+		Quote savedQuote = quoteRepository.save(quote);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedQuote.getId()).toUri();
+
+		return ResponseEntity.created(location).build();
+
+	}
+
+	//UPDATE
+	@PutMapping("/api/{id}")
+	public ResponseEntity<Object> updateQuote(@RequestBody Quote quote, @PathVariable long id) {
+
+		Optional<Quote> quoteOptional = quoteRepository.findById(id);
+
+		if (quoteOptional.isEmpty())
+			return ResponseEntity.notFound().build();
+
+		quote.setId(id);
+
+		quoteRepository.save(quote);
+
+		return ResponseEntity.noContent().build();
+	}
+
 }
